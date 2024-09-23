@@ -1,9 +1,11 @@
 import {ReactElement} from 'react'
 import {useCartStore} from "./store/cartStore.ts";
+// import {useAppStore} from "./store/appStore.ts";
 import {Product} from "./types.ts";
 
 export default function ProductList({products}: {products: Array<Product>}):ReactElement {
     const addToCart = useCartStore((state) => state.addToCart);
+    // const addToCart  = useAppStore((state) => state.addToCart);
 
   return (
       <div style={{"width": "70%", "display": "inline-block"}}>

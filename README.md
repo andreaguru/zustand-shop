@@ -1,30 +1,39 @@
-# React + TypeScript + Vite
+<h1>Project README</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h2>Project Description</h2>
 
-Currently, two official plugins are available:
+<p>This project is a sample application where we employ Zustand for state management. We have a simple cart system, where users can add products to a cart.</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p>Zustand is a small, fast, and scale-agnostic state management solution. It offers straightforward way to manage state globally with a simple API. Zustand provides a tiny abstraction to help you manage state without falling into common pitfalls, while providing a flexible API to design your own state management solution.</p>
 
-## Expanding the ESLint configuration
+<h2>State Management with Zustand</h2>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+<p>In this project, we have a CartStore which is responsible for managing the state of the cart. Zustand allows us to encapsulate our state and business logic into a single store. The store exposes the state and functions to mutate it.</p>
 
-- Configure the top-level `parserOptions` property like this:
+<p>Here's an example of how we define our CartStore:</p>
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+import {create} from 'zustand';
+import {CartState, Product} from "../types.ts";
+
+export const useCartStore = create<CartState>((set) => ({
+    cart: [],
+    addToCart: (product: Product) => set((state) => ({cart: [...state.cart, product]})),
+    addToCartAsync: async (product: Product) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        set((state) => ({cart: [...state.cart, product]}));
+    },
+    removeFromCart: (productId: number) => set((state) => ({cart: state.cart.filter((product: Product) => product.id !== productId)})),
+    clearCart: () => set(() => ({cart: []})),
+}));
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+<p>In the CartStore, we maintain a list of products (the 'cart' array), which represents our cart. We have defined several operations that we can perform on our cart: 'addToCart', 'addToCartAsync', 'removeFromCart', and 'clearCart'.</p>
+
+<p>Traffic between components and the CartStore is unidirectional. Components signal user intent via calls to 'useCartStore''s mutation methods, and 'useCartStore' manages state transitions and provides updated state data.</p>
+
+<p>This provides a clean, efficient, and robust means of managing state, ensuring that components are up-to-date with the latest state changes without having to deal with the intricacies of state management.</p>
+
+<h2>Summary</h2>
+
+<p>In this project, we effectively demonstrated how Zustand can be used for efficient state management in TypeScript applications. We showed how to encapsulate the state together with the logic that mutates it into a Zustand store, and how to use that store within our application. Zustand is incredibly lightweight and doesn't have the bloat of more sophisticated solutions, while still providing a simple and efficient API for managing state.</p>

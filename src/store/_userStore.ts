@@ -1,3 +1,4 @@
+/*
 import {create} from 'zustand';
 import {User} from "../types.ts";
 import {produce} from "immer";
@@ -30,3 +31,4 @@ export const useUserStore = create<UserState>((set) => ({
         state.user.profile.address.street = street;
     })),
 }));
+*/

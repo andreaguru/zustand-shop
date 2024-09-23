@@ -1,7 +1,7 @@
-import {create} from 'zustand';
+import {StateCreator} from 'zustand';
 import {CartState, Product} from "../types.ts";
 
-export const useCartStore = create<CartState>((set) => ({
+export const createCartSlice: StateCreator<CartState> = (set) => ({
     cart: [],
     addToCart: (product: Product) => set((state) => ({cart: [...state.cart, product]})),
     addToCartAsync: async (product: Product) => {
@@ -10,4 +10,4 @@ export const useCartStore = create<CartState>((set) => ({
     },
     removeFromCart: (productId: number) => set((state) => ({cart: state.cart.filter((product: Product) => product.id !== productId)})),
     clearCart: () => set(() => ({cart: []})),
-}));
+});
