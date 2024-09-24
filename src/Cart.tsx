@@ -25,7 +25,10 @@ export default function Cart():ReactElement {
                       <button onClick={() => removeFromCart(product.id)}>Remove from cart</button>
                   </div>
               ))}
-              <button onClick={clearCart}>Clear cart</button>
+              <button
+                  disabled={!cart.length} onClick={clearCart}>
+                  Clear cart
+              </button>
           </div>
       </div>
   )
